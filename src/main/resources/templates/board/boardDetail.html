@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+    <div th:replace="include/header :: header"></div>
+
+    <div class="container col-md-6">
+        <div class="card">
+            
+            <div class="card-body">
+                <h4 class="card-title md-3" th:text="${detail.TITLE}"></h4>
+                <h6 class="card-subtitle text-muted mb-4">
+                    <i class="far fa-user" th:text="${detail.CREA_ID}"></i> 
+                    .
+                    <i class="far fa-clock" th:text="${detail.CREA_DATE}"></i> 
+                    .
+                    <i class="fas fa-align-justify" th:text="${detail.HIT_CNT}"></i> 
+                </h6>
+                <p class="card-text" th:text="${detail.CONTENTS}"></p>
+            </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{'/board/update/' + ${detail.IDX}}'|">수정</button>
+                <!-- <button type="button" class="btn btn-primary" onclick="location.href='/board/boardDelete${pageMaker.makeQueryPage(detail.IDX, page) }'">삭제</button> -->
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{'/board/delete/' + ${detail.IDX}}'|">삭제</button>
+            </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{'/board/boardList' + ${pageMaker.makeQueryPage(page)}}'|">목록으로</button>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="include/footer :: footer"></div>
+</body>

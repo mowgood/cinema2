@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+	<div th:replace="include/header :: header"></div>
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <!-- 영화 목록 -->
+                <div class="col-lg-3">
+                    <div class="card-header bg-primary">
+                        <h6 class="m-0 text-white">영화</h6>
+                    </div>
+                    <div class="list-group list-group-flush small overflow-auto" id="movieListDiv">
+                        <p th:each="movie : ${movies}">
+                             <!-- <a class="list-group-item list-group-item-action" th:href="'javascript:movieSelect('+${movie.MVCODE}+','+${movie.MVTITLE}+')'" th:text="${movie.MVTITLE}"></a> -->
+                             <a class="list-group-item list-group-item-action" th:onclick="movieSelect(this, [[${movie.MVCODE}]],[[${movie.MVTITLE}]])" th:text="${movie.MVTITLE}"></a>
+                        </p>
+                    </div>
+                </div>
+                <!-- 상영관 목록 -->
+                <div class="col-lg-3">
+                    <div class="card shadow mb-4">
+                        <div class="card-header bg-success">
+                            <h6 class="m-0 text-white">극장</h6>
+                        </div>
+                        <div class="list-group list-group-flush small overflow-auto" style="height:150px;" id="theaterListDiv">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 상영 날짜 -->
+                <div class="col-lg-3">
+                    <div class="card shadow mb-4">
+                        <div class="card-header bg-success">
+                            <h6 class="m-0 text-white">날짜</h6>
+                        </div>
+                        <div class="list-group list-group-flush small overflow-auto" style="height:150px;" id="scDateListDiv">
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- 상영 시간 -->
+                <div class="col-lg-3">
+                    <div class="card shadow mb-4">
+                        <div class="card-header bg-success">
+                            <h6 class="m-0 text-white">시간</h6>
+                        </div>
+                        <div class="list-group list-group-flush small overflow-auto" id="scTimeListDiv">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <form role="form" th:object="${ReserveForm}" method="post">
+        <!-- <input type="text" name="reid" id="reid" placeholder="id"> -->
+        <input type="hidden" name="rethcode" id="rethcode">
+        <input type="hidden" name="rescdate" id="rescdate">
+        <input type="hidden" name="rescroom" id="rescroom">
+        <input type="hidden" name="resctime" id="resctime"> <!--hidden-->
+        <button type="submit" class="btn btn-primary">예매하기</button>
+    </form>
+   
+	<div th:replace="include/footer :: footer"></div>
+</body>
+
+<script type="text/javascript">
+    
+    function movieSelect(obj, mvcode, mvtitle) {
+
+        $("#movieListDiv a").css("background-color", "white");
+        $(obj).css("background-color", "pink");
+
+        printTheaterList(mvcode);
+        printScdateList(0,0); //선택한 영화 변경 시 날짜와 시간을 초기화
+        printScTimeList(0,0,0);
+
+        // $("#ticket").html(mvtitle);
+        // $("#selMvTitle").html($(obj).text());
+        // $("#rethcode").val(mvcode);
+    }
+    
+    function printTheaterList(mvcode) {
+        var str = "";
+        $.ajax({
+            type : "GET",
+            url : "/getThList",
+            data : {"mvcode" : mvcode},
+            dataType : "json",
+            success : function(thList) {
+                for(var i in thList){
+                    // str += '<a class="list-group-item list-group-item-action" href="';
+                    // str += "javascript:theaterSelect("+mvcode+","+thList[i].THCODE+")";
+                    // str += '">';
+                    // str += thList[i].THNAME;
+                    // str += "</a>"
+
+                    str += '<a class="list-group-item list-group-item-action" onclick="';
+                    str += "theaterSelect(this, "+mvcode+","+thList[i].THCODE+")";
+                    str += '">';
+                    str += thList[i].THNAME;
+                    str += "</a>"
+                }
+
+                $("#theaterListDiv").html(str);   
+            }
+        });
+    }
+
+    function theaterSelect(obj, mvcode, thcode) {
+
+        $("#theaterListDiv a").css("background-color", "white");
+        $(obj).css("background-color", "pink");
+
+        $("#rethcode").val(thcode);
+        
+        printScdateList(mvcode, thcode);
+    }
+
+    function printScdateList(mvcode, thcode) {
+        var str ="";
+        $.ajax({
+            type : "GET",
+            url : "/getScDateList",
+            data : { "mvcode" : mvcode,
+                     "thcode" : thcode },
+            dataType : "json",
+            success : function(scDateList) {
+                for(var i in scDateList) {
+                    // str += '<a class="list-group-item list-group-item-action" href="';
+                    // str += "javascript:scDateSelect("+mvcode+","+thcode+","+scDateList[i].scDateItem2+")";
+                    // str += '">';
+                    // str += scDateList[i].scDateItem;
+                    // str += "</a>"
+
+                    str += '<a class="list-group-item list-group-item-action" onclick="';
+                    str += "scDateSelect(this, "+mvcode+","+thcode+","+scDateList[i].scDateItem2+")";
+                    str += '">';
+                    str += scDateList[i].scDateItem;
+                    str += "</a>"
+                }
+                $("#scDateListDiv").html(str);
+            }	
+        });
+    }
+
+    function scDateSelect(obj, mvcode, thcode, scdate) {
+
+        $("#scDateListDiv a").css("background-color", "white");
+        $(obj).css("background-color", "pink");
+
+        // alert(scdate);
+        $("#rescdate").val(scdate);
+        
+        printScTimeList(mvcode, thcode, scdate);
+    }
+
+    function printScTimeList(mvcode, thcode, scdate) {
+        var str = "";
+        $.ajax({
+            type : "GET",
+            url : "/getScTimeList",
+            data : {"mvcode" : mvcode,
+                    "thcode" : thcode,
+                    "scdate" : scdate },
+            dataType : "json",
+            success : function(scTimeList) {
+                for(var i in scTimeList) {
+                    // str += '<a class="list-group-item list-group-item-action" href="';
+                    // str += "javascript:scTimeSelect("+mvcode+","+thcode+","+scdate+","+scTimeList[i].scTimeItem+")";
+                    // str += '">';
+                    // str += scTimeList[i].SCROOM + "관 | " + scTimeList[i].scTimeItem;
+                    // str += "</a>"
+
+                    str += '<a class="list-group-item list-group-item-action" onclick="';
+                    str += "scTimeSelect(this, "+mvcode+","+thcode+","+scdate+","+scTimeList[i].SCROOM+","+scTimeList[i].scTimeItem+")";
+                    str += '">';
+                    str += scTimeList[i].SCROOM + "관 | " + scTimeList[i].scTimeItem;
+                    str += "</a>"
+                }
+                $("#scTimeListDiv").html(str);
+            }
+        });
+    }
+
+    function scTimeSelect(obj, mvcode, thcode, scdate, scRoom, scTime) {
+
+        $("#scTimeListDiv a").css("background-color", "white");
+        $(obj).css("background-color", "pink");
+
+        $("#resctime").val(scTime);
+        $("#rescroom").val(scRoom);
+        
+    }
+
+</script>
+</html>

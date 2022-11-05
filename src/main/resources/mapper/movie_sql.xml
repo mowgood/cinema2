@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3/0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="movie">
+
+	<select id="selectMovieList" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				movies
+			ORDER BY MVCODE DESC
+		]]>		
+	</select>
+	
+	<select id="selectTheater" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT
+				THCODE,
+				THNAME
+			FROM
+				theaters
+			WHERE THCODE IN (SELECT SCTHCODE FROM schedules
+							 WHERE SCMVCODE = #{mvcode});			
+		]]>	
+	</select>
+	
+	<select id="selectSchedule" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT DATE_FORMAT(SCDATE, '%Y%m%d')
+			FROM 
+				schedules
+			WHERE
+				(SCMVCODE = #{mvcode}) AND (SCTHCODE = #{thcode})
+			GROUP BY DATE_FORMAT(SCDATE, '%Y%m%d');
+		]]>	
+	</select>
+	
+	<select id="selectTheaters" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				theaters	
+		]]>
+	</select>
+	
+	<select id="selectSchedules" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				schedules
+		]]>
+	</select>
+	
+	<select id="selectThList" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				theaters
+			WHERE THCODE IN (SELECT SCTHCODE FROM schedules
+							 WHERE SCMVCODE = #{mvcode});			
+		]]>	
+	</select>
+	
+	<select id="selectScDateList" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT DATE_FORMAT(SCDATE, '%Y.%m.%d') as scDateItem, DATE_FORMAT(SCDATE, '%Y%m%d') as scDateItem2
+			FROM 
+				schedules
+			WHERE
+				(SCMVCODE = #{mvcode}) AND (SCTHCODE = #{thcode})
+			GROUP BY DATE_FORMAT(SCDATE, '%Y%m%d');
+		]]>	
+	</select>
+	
+	<select id="selectScTimeList" resultType="hashmap" parameterType="hashmap">
+		<![CDATA[
+			SELECT SCROOM, DATE_FORMAT(SCDATE, '%H%i') as scTimeItem
+			FROM
+				schedules
+			WHERE
+				(SCMVCODE = #{mvcode}) AND (SCTHCODE = #{thcode} AND DATE_FORMAT(SCDATE, '%Y%m%d') = #{scdate})
+		]]>
+	</select>
+
+	<insert id="insertReservation" parameterType="hashmap">
+		<![CDATA[
+		    INSERT INTO reservation
+		    (
+		    	REID,
+		    	RETHCODE,
+		    	RESCROOM,
+		    	RESCDATE
+		    )
+		    VALUES
+		    (
+		    	"member2",
+		    	#{rethcode},
+		    	#{rescroom},
+		    	DATE_FORMAT(#{rescdate}, '%Y-%m-%d %H:%i:%s')
+		    )
+	    ]]>	
+	</insert>
+</mapper>

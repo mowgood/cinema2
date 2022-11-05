@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+    <div th:replace="include/header :: header"></div>
+
+    <div class="container col-md-6">
+        <form role="form" th:object="${BoardForm}" method="post">
+            <input type="hidden" name="idx" value="${detail.IDX}">
+            <div class="form-group">
+                <label th:for="title">제목</label> 
+                <input type="text" class="form-control" name="title" th:value="${detail.TITLE}"/>         
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" name="crea_id" th:value="${detail.CREA_ID}" readonly>
+            </div>
+            <div class="form-group">
+                <label th:for="contents">내용</label>
+                <textarea class="form-control" rows="10" name="contents" th:text="${detail.CONTENTS}"></textarea>           
+            </div>
+            <button type="submit" class="btn btn-primary">수정하기</button>
+            <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{'/board/boardList' + ${pageMaker.makeQueryPage(page)}}'|">목록으로</button>
+        </form>
+
+    <div th:replace="include/footer :: footer"></div>
+</body>

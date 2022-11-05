@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+	<div th:replace="include/header :: header"></div>
+
+    <div class="container">
+		<table class="table">
+			<colgroup>
+				<col width="10%"></col>
+				<col width="55%"></col>
+				<col width="10%"></col>
+				<col width="10%"></col>
+				<col width="15%"></col>
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>조회수</th>
+					<th>작성일시</th>
+				</tr>
+			</thead>
+			<tbody>
+            <tr th:each="list : ${list}">
+                <td th:text="${list.IDX}"></td>
+				<!-- <td><a href="/board/boardDetail?idx=" th:attrappend="href=${list.IDX}" th:text="${list.TITLE}"></td> -->
+				<!-- <td><a th:href="@{./boardDetail(idx=${list.IDX})}" th:text="${list.TITLE}"></td> -->
+				<td><a th:href="@{'/board/detail/'+${list.IDX}}" th:text="${list.TITLE}"></td>
+                <td th:text="${list.CREA_ID}"></td>
+				<td th:text="${list.HIT_CNT}"></td>
+				<td th:text="${list.CREA_DATE}"></td>
+            </tr>
+			</tbody>
+		</table>
+
+		<ul class="btn-group pagination">
+			<li th:if="${pageMaker.prev}">
+				<a th:href="@{'/board/boardList'+${pageMaker.makeQueryPage(pageMaker.startPage-1)}}">이전</a>
+			</li>
+			<tr th:each="page : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage, 1)}">
+				<a th:href="@{'/board/boardList'+${pageMaker.makeQueryPage(page)}}" th:text="${page}"></a>
+			</tr>
+			<li th:if="${pageMaker.next && pageMaker.endPage > 0 }">
+				<a th:href="@{'/board/boardList'+${pageMaker.makeQueryPage(pageMaker.endPage+1)}}">다음</a>
+			</li>
+		</ul>
+		
+		<button type="button"  class="btn btn-primary" th:onclick="|location.href='@{'/board/write'}'|">글쓰기</button>
+	<div th:replace="include/footer :: footer"></div>
+</body>
