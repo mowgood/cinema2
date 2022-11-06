@@ -21,7 +21,7 @@
                 <textarea class="form-control" rows="10" name="contents" th:text="${detail.CONTENTS}"></textarea>           
             </div>
             <button type="submit" class="btn btn-primary">수정하기</button>
-            <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{'/board/boardList' + ${pageMaker.makeQueryPage(page)}}'|">목록으로</button>
+            <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{'/board/list' + ${pageMaker.makeQueryPage(page)}}'|">목록으로</button>
         </form>
 
     <div th:replace="include/footer :: footer"></div>

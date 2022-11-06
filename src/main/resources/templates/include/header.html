@@ -14,7 +14,7 @@
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
             <a th:if="${authInfo eq null}" class="btn btn-sm btn-outline-secondary" th:href="@{/user/login}">Login</a>
-            <a th:if="${authInfo eq null}" class="btn btn-sm btn-outline-secondary" href="/user/createUser">Sign up</a>
+            <a th:if="${authInfo eq null}" class="btn btn-sm btn-outline-secondary" href="/user/create">Sign up</a>
             <label th:if="${authInfo ne null}" class="alert alert-secondary" role="alert" th:text="${authInfo.name}"></label>
             <a th:if="${authInfo ne null}" href="#" class="alert-link">회원정보</a>
             <a th:if="${authInfo ne null}"class="btn btn-sm btn-outline-secondary" href="/user/logout">Logout</a>
@@ -26,9 +26,9 @@
     <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <nav class="nav d-flex justify-content-between">
           <a class="p-2 text-muted" href="/">Home</a>
-          <a class="p-2 text-muted" href="/movie/movieList">영화 목록</a>
-          <a class="p-2 text-muted" href="/board/boardList">게시판</a>
-          <a class="p-2 text-muted" href="/user/createUser">회원가입</a>
+          <a class="p-2 text-muted" href="/movie/list">영화 목록</a>
+          <a class="p-2 text-muted" href="/board/list">게시판</a>
+          <a class="p-2 text-muted" href="/user/create">회원가입</a>
           <a class="p-2 text-muted" href="#">About</a>
         </nav>
     </div>

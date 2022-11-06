@@ -39,13 +39,13 @@
 
 		<ul class="btn-group pagination">
 			<li th:if="${pageMaker.prev}">
-				<a th:href="@{'/board/boardList'+${pageMaker.makeQueryPage(pageMaker.startPage-1)}}">이전</a>
+				<a th:href="@{'/board/list'+${pageMaker.makeQueryPage(pageMaker.startPage-1)}}">이전</a>
 			</li>
 			<tr th:each="page : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage, 1)}">
-				<a th:href="@{'/board/boardList'+${pageMaker.makeQueryPage(page)}}" th:text="${page}"></a>
+				<a th:href="@{'/board/list'+${pageMaker.makeQueryPage(page)}}" th:text="${page}"></a>
 			</tr>
 			<li th:if="${pageMaker.next && pageMaker.endPage > 0 }">
-				<a th:href="@{'/board/boardList'+${pageMaker.makeQueryPage(pageMaker.endPage+1)}}">다음</a>
+				<a th:href="@{'/board/list'+${pageMaker.makeQueryPage(pageMaker.endPage+1)}}">다음</a>
 			</li>
 		</ul>
 		

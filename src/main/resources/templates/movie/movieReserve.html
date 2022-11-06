@@ -91,7 +91,7 @@
         var str = "";
         $.ajax({
             type : "GET",
-            url : "/getThList",
+            url : "/movie/getThList",
             data : {"mvcode" : mvcode},
             dataType : "json",
             success : function(thList) {
@@ -128,7 +128,7 @@
         var str ="";
         $.ajax({
             type : "GET",
-            url : "/getScDateList",
+            url : "/movie/getScDateList",
             data : { "mvcode" : mvcode,
                      "thcode" : thcode },
             dataType : "json",
@@ -166,7 +166,7 @@
         var str = "";
         $.ajax({
             type : "GET",
-            url : "/getScTimeList",
+            url : "/movie/getScTimeList",
             data : {"mvcode" : mvcode,
                     "thcode" : thcode,
                     "scdate" : scdate },

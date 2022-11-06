@@ -20,7 +20,7 @@
                 <textarea class="form-control" rows="10" name="contents" placeholder="내용"></textarea>           
             </div>
             <button type="submit" class="btn btn-primary">등록하기</button>
-            <!-- <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{'/board/boardList' + ${pageMaker.makeQueryPage(page)}}'|">목록으로</button> -->
+            <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{'/board/list' + ${pageMaker.makeQueryPage(page)}}'|">목록으로</button>
         </form>
 
     <div th:replace="include/footer :: footer"></div>

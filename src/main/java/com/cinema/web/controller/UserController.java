@@ -16,7 +16,7 @@ import com.cinema.web.util.RegisterRequestValidator;
 @Controller
 public class UserController {
 
-	@RequestMapping("/user/createUser")
+	@RequestMapping("/user/create")
 	public ModelAndView createUser() throws Exception {
 		ModelAndView mv = new ModelAndView("user/createUser");
 		mv.addObject("registerRequest", new RegisterRequest());

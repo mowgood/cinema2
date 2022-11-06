@@ -20,7 +20,7 @@ public class MovieController {
 	@Resource(name="movieService")
 	private MovieService movieService;
 
-	@RequestMapping(value="/movie/movieList")
+	@RequestMapping(value="/movie/list")
 	public ModelAndView openMovieList() throws Exception {
 		
 		ModelAndView mv = new ModelAndView("/movie/movieList");
@@ -52,7 +52,7 @@ public class MovieController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/getThList") //상영관 출력
+	@RequestMapping(value="/movie/getThList") //상영관 출력
 	@ResponseBody
 	public String getThList(String mvcode) {
 		System.out.println("조회할 영화 코드 : " + mvcode);
@@ -62,7 +62,7 @@ public class MovieController {
 		return ThList;
 	}
 	
-	@RequestMapping(value="/getScDateList") //날짜 출력
+	@RequestMapping(value="/movie/getScDateList") //날짜 출력
 	@ResponseBody
 	public String getScDateList(String mvcode, String thcode) {
 		System.out.println("조회할 영화 코드 : " + mvcode + " 조회할 극장 코드 : " + thcode);
@@ -72,7 +72,7 @@ public class MovieController {
 		return ScDateList;
 	}
 	
-	@RequestMapping(value="/getScTimeList") //시간 출력
+	@RequestMapping(value="/movie/getScTimeList") //시간 출력
 	@ResponseBody
 	public String getScTimeList(String mvcode, String thcode, String scdate) {
 		System.out.println("조회할 영화 코드 : " + mvcode + " 조회할 극장 코드 : " + thcode + "조회할 날짜 : " + scdate);

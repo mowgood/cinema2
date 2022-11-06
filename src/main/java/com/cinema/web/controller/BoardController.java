@@ -24,7 +24,7 @@ public class BoardController {
 	@Resource(name="boardService")
 	private BoardService boardService;
 	
-	@RequestMapping(value="/board/boardList")
+	@RequestMapping(value="/board/list")
 	public ModelAndView openBoardList(Criteria cri) throws Exception {
 		
 		ModelAndView mv = new ModelAndView("/board/boardList");
@@ -52,7 +52,7 @@ public class BoardController {
 	@RequestMapping(value="/board/write", method=RequestMethod.POST)
 	public ModelAndView boardInsert(BoardForm boardForm) throws Exception {
 		
-		ModelAndView mv = new ModelAndView("redirect:/board/boardList");
+		ModelAndView mv = new ModelAndView("redirect:/board/list");
 		Map<String, Object> items = new HashMap<>();
 		items.put("title", boardForm.getTitle());
 		items.put("contents", boardForm.getContents());
@@ -97,7 +97,7 @@ public class BoardController {
 	@RequestMapping(value="/board/update/{idx}", method=RequestMethod.POST)
 	public ModelAndView boardUpdatePOST(@PathVariable int idx, Criteria cri, RedirectAttributes redAttr, BoardForm boardForm) throws Exception {
 		
-		ModelAndView mv = new ModelAndView("redirect:/board/boardList");
+		ModelAndView mv = new ModelAndView("redirect:/board/list");
 
 		Map<String, Object> items = new HashMap<>();
 		items.put("idx", idx);
@@ -112,7 +112,7 @@ public class BoardController {
 	@RequestMapping(value="/board/delete/{idx}")
 	public ModelAndView boardDelete(@PathVariable int idx, Criteria cri, RedirectAttributes redAttr) throws Exception {
 		
-		ModelAndView mv = new ModelAndView("redirect:/board/boardList");
+		ModelAndView mv = new ModelAndView("redirect:/board/list");
 		boardService.deleteBoard(idx);
 		
 		redAttr.addAttribute("page", cri.getPage());
