@@ -63,7 +63,7 @@ public class BoardController {
 		return mv;
 	}
 
-	@GetMapping("/board/detail/{idx}")
+	@RequestMapping("/board/detail/{idx}")
 	public ModelAndView boardDetail(@PathVariable int idx, Criteria cri) {
 		ModelAndView mv = new ModelAndView("/board/boardDetail");
 		Map<String, Object> detail = boardService.viewBoardDetail(idx);
